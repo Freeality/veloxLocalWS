@@ -12,6 +12,13 @@ type ContaController struct {
 	Control
 }
 
+// contas para teste
+func (c *ContaController)CriarContasParaTeste() {
+	c.AdicionaRegistro("nome1", "email1", "senha1")
+	c.AdicionaRegistro("nome2", "email2", "senha2")
+	c.AdicionaRegistro("nome3", "email3", "senha3")
+}
+
 // precisamos disso para criar um singleton
 var instance *ContaController // contém a instancia única
 var once sync.Once // once executa uma função uma única vez
@@ -30,7 +37,7 @@ func NewContaController() *ContaController {
 }
 
 // Adiciona registros
-func (c *ContaController) AdicionaRegistro(email, senha string) int {
+func (c *ContaController) AdicionaRegistro(nome, email, senha string) int {
 
 	// adquire uma tranca e nos certificamos que ela será liberada
 	c.mutex.Lock()
@@ -42,6 +49,7 @@ func (c *ContaController) AdicionaRegistro(email, senha string) int {
 	// cria um novo registro com os dados fornecidos e o novo id
 	novoRegistro := &models.Conta{
 		novoId,
+		nome,
 		email,
 		senha,
 	}
